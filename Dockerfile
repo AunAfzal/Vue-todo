@@ -2,23 +2,20 @@
 # Use an official Node.js runtime as a parent image
 FROM node:20-alpine AS build
 
-# Install pnpm, as it's used in your project
-RUN npm install -g pnpm
-
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and the pnpm lockfile to leverage Docker cache
-COPY package.json pnpm-lock.yaml ./
+# Copy package.json and the npm lockfile to leverage Docker cache
+COPY package.json package-lock.json ./
 
 # Install project dependencies
-RUN pnpm install
+RUN npm install
 
 # Copy the rest of the application source code
 COPY . .
 
 # Build the application for production
-RUN pnpm run build
+RUN npm run build
 
 # Stage 2: Serve the application with Nginx
 # Use a lightweight Nginx image
@@ -35,4 +32,3 @@ EXPOSE 80
 
 # Command to run Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
-
