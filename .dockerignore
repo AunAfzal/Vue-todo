@@ -1,0 +1,7 @@
+# Ignore dependencies and build artifacts
+node_modules
+dist
+.git
+.gitignore
+Dockerfile
+.dockerignore
