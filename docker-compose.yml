@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: .
+    container_name: vue-todo-app-frontend
+    ports:
+      - '8080:80'
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13-alpine
+    container_name: vue-todo-app-db
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
